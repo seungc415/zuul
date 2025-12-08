@@ -49,22 +49,14 @@ public class Room {
 	}
 	
 	/**
-	 * 이 방의 출구들을 설정해 준다. 각 방향은 다른 방일 수도 있고 null일 수도 있다(다른 방으로 연결되지 않는 경우).
-	 * 
-	 * @param north The north exit.
-	 * @param east  The east east.
-	 * @param south The south exit.
-	 * @param west  The west exit.
+	 * 이 Room의 출구들 중 하나를 정해준다.
+	 * @param direction 출구 방향
+	 * @param neighbor 지정된 방향의 출구에 연결된 Room.
 	 */
-	public void setExits(Room north, Room east, Room south, Room west) {
-		if (north != null)
-			exits.put("north", north);
-		if (east != null)
-			exits.put("east", east);
-		if (south != null)
-			exits.put("south", south);
-		if (west != null)
-			exits.put("west", west);
+	public void setExit(String direction, Room neighbor) {
+		//neighbor이 null일 때는 map에 넣지 않고 무시한다.
+		if (neighbor != null)
+			exits.put(direction, neighbor);
 	}
 
 	/**
