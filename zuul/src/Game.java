@@ -15,7 +15,7 @@ public class Game {
 	 * Create all the rooms and link their exits together. 방들을 만들고 방의 출구들을 서로 엮어준다.
 	 */
 	private void createRooms() {
-		Room hall, lectureRoom, computerRoom, office, dongBang;
+		Room hall, lectureRoom, computerRoom, office, dongBang, cellar;
 
 		// create the rooms
 		hall = new Room("Hall");
@@ -23,6 +23,7 @@ public class Game {
 		dongBang = new Room("Dongari room");
 		computerRoom = new Room("Computer room");
 		office = new Room("Office");
+		cellar = new Room("Cellar");
 
 		// initialise room exits
 		hall.setExit("east", lectureRoom);
@@ -35,6 +36,9 @@ public class Game {
 		
 		computerRoom.setExit("north", hall);
 		computerRoom.setExit("east", office);
+		computerRoom.setExit("down", cellar);
+		
+		cellar.setExit("up", computerRoom);
 		
 		office.setExit("west", computerRoom);
 
