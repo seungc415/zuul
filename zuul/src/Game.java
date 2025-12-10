@@ -80,9 +80,10 @@ public class Game {
 
 	private void printLocationInfo() {
 		// 현재 있는 방에 대한 정보 출력
-				System.out.println("Location: " + currentRoom.getDescription());
-				// 출구가 있는 방향을 모두 출력
-				System.out.println(currentRoom.getExitString());
+		System.out.println("Location: " + currentRoom.getDescription());
+		// 출구가 있는 방향을 모두 출력
+		System.out.print(currentRoom.getExitString());
+		System.out.println();
 	}
 	/**
 	 * Given a command, process (that is: execute) the command.

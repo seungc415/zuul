@@ -15,7 +15,7 @@ public class Room {
 	 */
 	public Room(String description) {
 		this.description = description;
-		exits = new HashMap<>();
+		exits = new HashMap<String, Room>();
 	}
 
 	/**
@@ -43,7 +43,8 @@ public class Room {
 		Iterator<String> it = keys.iterator();
 		
 		while (it.hasNext())
-			s.append(it.next()).append(" ");
+			s.append(it.next() + " "); //s.append(it.next()).append(" ");
+		s.deleteCharAt(s.length() - 1);
 		
 		return s.toString();
 	}
