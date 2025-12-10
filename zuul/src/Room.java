@@ -1,12 +1,13 @@
 import java.util.Map;
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
 public class Room {
 	private String description; // 이 Room에 대한 설명.
 	private Map<String, Room> exits;
-	private Item item;
+	private ArrayList<Item> items;
 	
 	/**
 	 * "description" 설명에 해당하는 Room을 구성한다. 초기에는 exit을 갖지 않는다. "description"은 가령
@@ -17,10 +18,11 @@ public class Room {
 	public Room(String description) {
 		this.description = description;
 		exits = new HashMap<String, Room>();
+		items = new ArrayList<>();
 	}
 	
-	public void setItem(Item item) {
-		this.item = item;
+	public void addItem(Item item) {
+		items.add(item);
 	}
 
 	/**
@@ -79,9 +81,11 @@ public class Room {
 		StringBuilder s = new StringBuilder();
 		s.append(description + ".\n");
 		s.append(getExitString());
-		if (item != null) {
+		if (items.size() != 0) {
 			s.append("\n<Item>");
-			s.append("\n" + item.getLongDescription());
+			Iterator<Item> it = items.iterator();
+			while (it.hasNext())
+				s.append("\n" + it.next().getLongDescription());
 		}
 		return s.toString();
 	}
