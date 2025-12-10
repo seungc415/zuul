@@ -1,6 +1,7 @@
 public class Game {
 	private Parser parser;
 	private Room currentRoom;
+	private Room recentRoom;
 
 	/**
 	 * Create the game and initialise its internal map.
@@ -111,7 +112,9 @@ public class Game {
 			look();
 		} else if (commandWord.equals("eat")) {
 			eat();
-		} else if (commandWord.equals("quit")) {
+		} else if (commandWord.equals("back")) {
+			back(command);
+		}else if (commandWord.equals("quit")) {
 			wantToQuit = quit(command);
 		}
 
@@ -139,6 +142,24 @@ public class Game {
 		System.out.println("Delicious!");
 	}
 	
+	private void back(Command command) {
+		if (command.hasSecondWord()) {
+			System.out.println("한 단계 전으로만 돌아갈 수 있습니다.");
+			System.out.println("back 명령어는 두 번째 단어를 가질 수 없습니다.");
+			return;
+		}
+		
+		if (recentRoom == null) {
+			printLocationInfo();
+			return;
+		}
+		
+		currentRoom = recentRoom;
+		recentRoom = null;
+		
+		printLocationInfo();
+	}
+	
 	/*
 	 * go 명령일 때 이 메소드가 실행된다. "두번째단어"로 north, east, south, west 중 하나가 주어져야 한다. 주어진
 	 * 방향으로의 이동을 시도한다. 그 방향으로 방이 연결되어 있지 않은 경우에는 에러 메세지를 출력한다.
@@ -159,6 +180,7 @@ public class Game {
 		if (nextRoom == null) {
 			System.out.println("No exit in that direction!");
 		} else {
+			recentRoom = currentRoom;
 			currentRoom = nextRoom; // 방을 변경
 
 			printLocationInfo();
