@@ -12,12 +12,12 @@ public class CommandWords {
 	/**
 	 * 명령어들을 화면에 출력한다.
 	 */
-	public void showAll() {
-		StringBuilder sb = new StringBuilder("Commands: ");
+	public String getCommandList() {
+		StringBuilder sb = new StringBuilder();
 		for (String command : validCommands)
 			sb.append(command + " ");
 		sb.deleteCharAt(sb.length() - 1); //마지막 공백문자 삭제
-		System.out.println(sb.toString());
+		return sb.toString();
 	}
 	
 	/**
