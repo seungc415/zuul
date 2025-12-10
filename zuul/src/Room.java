@@ -66,5 +66,12 @@ public class Room {
 	public String getDescription() {
 		return description;
 	}
+	
+	/**
+	 * @return Room의 상세한 정보를 모두 모아 문자열로 반환한다.
+	 */
+	public String getLongDescription() {
+		return description + ".\n" + getExitString();
+	}
 
 }

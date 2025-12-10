@@ -1,7 +1,6 @@
-
 public class CommandWords {
 	// 유효한 명령어들을 가지고 있는 상수 배열.
-	private static final String[] validCommands = { "go", "quit", "help" };
+	private static final String[] validCommands = { "go", "quit", "help", "look", "eat" };
 
 	/**
 	 * Constructor - initialise the command words.
@@ -10,6 +9,17 @@ public class CommandWords {
 		// nothing to do at the moment...
 	}
 
+	/**
+	 * 명령어들을 화면에 출력한다.
+	 */
+	public void showAll() {
+		StringBuilder sb = new StringBuilder("Commands: ");
+		for (String command : validCommands)
+			sb.append(command + " ");
+		sb.deleteCharAt(sb.length() - 1); //마지막 공백문자 삭제
+		System.out.println(sb.toString());
+	}
+	
 	/**
 	 * Check whether a given String is a valid command word. 주어진 문자열이 유효한 명령어인지
 	 * 판별한다.

@@ -1,4 +1,3 @@
-
 public class Game {
 	private Parser parser;
 	private Room currentRoom;
@@ -78,12 +77,12 @@ public class Game {
 		printLocationInfo();
 	}
 
+	/**
+	 * 현재 위치에 관한 정보를 출력한다.
+	 */
 	private void printLocationInfo() {
 		// 현재 있는 방에 대한 정보 출력
-		System.out.println("Location: " + currentRoom.getDescription());
-		// 출구가 있는 방향을 모두 출력
-		System.out.print(currentRoom.getExitString());
-		System.out.println();
+		System.out.println("Location: " + currentRoom.getLongDescription());
 	}
 	/**
 	 * Given a command, process (that is: execute) the command.
@@ -108,6 +107,10 @@ public class Game {
 			printHelp();
 		} else if (commandWord.equals("go")) {
 			goRoom(command);
+		} else if (commandWord.equals("look")) {
+			look();
+		} else if (commandWord.equals("eat")) {
+			eat();
 		} else if (commandWord.equals("quit")) {
 			wantToQuit = quit(command);
 		}
@@ -122,10 +125,20 @@ public class Game {
 	 * and a list of the command words.
 	 */
 	private void printHelp() {
-		System.out.print("Commands: ");
-		System.out.println("go quit help");
+		parser.showCommands();
 	}
 
+	/**
+	 * 현재 방의 상세 정보를 출력한다.
+	 */
+	private void look() {
+		printLocationInfo();
+	}
+	
+	private void eat() {
+		System.out.println("Delicious!");
+	}
+	
 	/*
 	 * go 명령일 때 이 메소드가 실행된다. "두번째단어"로 north, east, south, west 중 하나가 주어져야 한다. 주어진
 	 * 방향으로의 이동을 시도한다. 그 방향으로 방이 연결되어 있지 않은 경우에는 에러 메세지를 출력한다.

@@ -1,5 +1,3 @@
-
-
 import java.util.Scanner;
 
 public class Parser {
@@ -45,5 +43,9 @@ public class Parser {
 			return new Command(null, word2);
 		}
 
+	}
+	
+	public void showCommands() {
+		commands.showAll();
 	}
 }
