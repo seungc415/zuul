@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Game {
 	private Parser parser;
 	private Player player;
@@ -8,7 +10,7 @@ public class Game {
 	 */
 	public Game() {
 		createRooms();
-		player = new Player(hall);
+		player = new Player(hall, 20);
 		parser = new Parser();
 	}
 
@@ -118,7 +120,13 @@ public class Game {
 			eat();
 		} else if (commandWord.equals("back")) {
 			back(command);
-		}else if (commandWord.equals("quit")) {
+		} else if (commandWord.equals("take")) {
+			take(command);
+		} else if (commandWord.equals("drop")) {
+			drop(command);
+		} else if (commandWord.equals("items")) {
+			items();
+		} else if (commandWord.equals("quit")) {
 			wantToQuit = quit(command);
 		}
 
@@ -155,6 +163,91 @@ public class Game {
 		
 		player.back();
 		printLocationInfo(player.getCurrentRoom());
+	}
+	
+	/**
+	 * 아이템을 집어 든다.
+	 * @param command 이 작업을 하게 만든 명령
+	 */
+	private void take(Command command) {
+		// Command에 second word가 없는 경우
+		//적절한 에러 메세지를 화면에 내보내고 아무 일도 하지않고 반환한다.
+		if(!command.hasSecondWord()) {
+			System.out.println("Which item?");
+			return;
+		}
+		
+		// Second word가 집을 아이템이므로 second word를 얻는다.
+		// 어떻게 얻나? Command에게 메소드를 호출함으로써..
+		String itemName = command.getSecondWord();
+		
+		// 선수가 아이템을 집도록 함.
+		// 어떻게? Player에게 메소드를 호출함으로써...
+		// 지역변수를 하나 선언하고 Player 메소드가 반환하는 값을 저장해 둔다.
+		// 저장된 값을 보면 메소드가 성공했는지 실패했는지 알 수 있다.
+		Item item = player.takeItem(itemName);
+		
+		if (item == null)								// 실패한 경우, 에러 메세지 출력.
+			System.out.println("Cannot take item.");
+		else {											// 성공한 경우.
+			List<Item> items = player.getItems();		// 선수가 가진 아이템 리스트를 얻어
+			printItems(items);							// 리스트에 있는 모든 아이템들을 출력
+		}
+	}
+	
+	/**
+	 * 지정된 List에 있는 모든 아이템들의 상세 내역을 출력한다.
+	 * 아이템들의 총 무게와 이 선수가 들 수 있는 최대 무게도 함께 출력한다.
+	 * @param items 출력할 아이템들이 들어 있는 List
+	 */
+	private void printItems(List<Item> items) {
+		int sum = 0;
+		System.out.println("<Carrying Items>");
+		
+		// 각 아이템의 longDescription을 출력하고 아이템 무게를 누적한다.
+		for (Item item : items) {
+			System.out.println(item.getLongDescription());
+			sum += item.getWeight();
+		}
+		
+		// 아이템들의 무게의 누적 합과 이 선수가 들 수 있는 최대 무게를 출력한다.
+		System.out.println("<Total weight: " + sum
+				+ ", max weight: " + player.getMaxWeight() + ">");
+	}
+	
+	/**
+	 * 아이템을 내려 놓는다.
+	 * @param command 이 작업을 하게 만든 명령
+	 */
+	private void drop(Command command) {
+		// Command에 second word가 없는 경우
+		// 적절한 에러 메세지를 화면에 내 보내고 아무 일도 하지 않고 반환한다.
+		if (!command.hasSecondWord()) {
+			System.out.println("Which item?");
+			return;
+		}
+		
+		// Second word가 내려 놓을 아이템이므로 second word를 얻는다.
+		// 어떻게 얻나? Command에게 메소드를 호출함으로써..
+		String itemName = command.getSecondWord();
+		
+		// 선수가 아이템을 내려 놓도록 함
+		// 어떻게? Player에게 메소드를 호출함으로써...
+		Item item = player.dropItem(itemName);
+		
+		if (item == null)										// 실패한 경우, 에러 메세지 출력.
+			System.out.println("You don't have that item.");
+		else {													// 성공한 경우,
+			List<Item> items = player.getItems();				// 선수가 가진 아이템 리스트를 얻어
+			printItems(items);									// 리스트에 있는 모든 아이템들을 출력
+		}
+	}
+	
+	/**
+	 * 가지고 있는 아이템들의 상세 내역을 출력한다.
+	 */
+	private void items() {
+		printItems(player.getItems());
 	}
 	
 	/*

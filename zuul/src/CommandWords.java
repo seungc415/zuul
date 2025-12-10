@@ -1,6 +1,6 @@
 public class CommandWords {
 	// 유효한 명령어들을 가지고 있는 상수 배열.
-	private static final String[] validCommands = { "go", "quit", "help", "look", "eat", "back" };
+	private static final String[] validCommands = { "go", "quit", "help", "look", "eat", "back", "take", "drop", "items" };
 
 	/**
 	 * Constructor - initialise the command words.

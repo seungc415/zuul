@@ -24,6 +24,29 @@ public class Room {
 	public void addItem(Item item) {
 		items.add(item);
 	}
+	
+	/**
+	 * 이 Room에서 아이템을 제거한다.
+	 * @param name 이 Room에서 제거할 아이템의 이름.
+	 * @return 제거된 아이템(제거에 성공한 경우),
+	 * 		   null (제거에 실패한 경우)
+	 */
+	public Item removeItem(String name) {
+		// 아이템들을 하나 하나 차례로 살펴본다.
+		// 아이템의 이름이 주어진 이름과 같으면 그 아이템을 제거하고
+		// 제거된 아이템을 반환한다.
+		// 만약 이름이 일치하는 아이템이 없으면 null을 반환한다.
+		
+		Iterator<Item> it = items.iterator();
+		while (it.hasNext()) {
+			Item item = it.next();
+			if (item.getName().equals(name)) {
+				it.remove();
+				return item; // 주어진 이름의 아이템이 있으면 그 아이템을 반환
+			}
+		}
+		return null; //주어진 이름의 아이템이 없는 경우 null을 반환
+	}
 
 	/**
 	 * 지정된 방향으로 나가려고 할 때 연결되는 Room을 알려준다.
