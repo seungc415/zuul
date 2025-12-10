@@ -2,23 +2,25 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Stack;
 
 public class Player {
 
 	private Room currentRoom;	// 지금 있는 방
-	private Room recentRoom;	// 최근에 있던 방
+	private Stack<Room> pastRooms;	// 거쳐온 방들
 	private ArrayList<Item> items; // 이 선수가 가지고 있는 아이템들
 	private int maxWeight;		   // 이 선수가 들고 다닐 수 있는 아이템들의 무게 (최대 무게)
 	
 	/**
 	 * 구성자
 	 * @param startRoom 이 선수가 처음 게임을 시작할 방
+	 * @param maxWeight 이 선수가 들고 갈 수 있는 아이템의 최대 무게
 	 */
 	public Player(Room startRoom, int maxWeight) {
-		this.currentRoom = startRoom;
-		this.recentRoom = null;
+		currentRoom = startRoom;
+		pastRooms = new Stack<Room>();
 		this.maxWeight = maxWeight;
-		this.items = new ArrayList<>();
+		items = new ArrayList<Item>();
 	}
 	
 	/**
@@ -28,25 +30,27 @@ public class Player {
 	 * @return 성공했으면 0, 실패했으면 -1.
 	 */
 	int moveTo(String direction) {
-		Room next = currentRoom.getExit(direction);
-		if (next == null) {
+		Room nextRoom = null;
+		nextRoom = currentRoom.getExit(direction);
+		
+		if (nextRoom == null) {
 			return -1;
 		}
-		recentRoom = currentRoom;
-		currentRoom = next;
-		return 0;
+		else {
+			pastRooms.push(currentRoom);
+			currentRoom = nextRoom;
+			return 0;
+		}
 	}
 	
 	/**
 	 * 이전 방으로 돌아간다.
 	 */
 	public void back() {
-		if (recentRoom == null) {
-			return;
+		if (!pastRooms.isEmpty()) {
+			currentRoom = pastRooms.pop();
 		}
-		
-		currentRoom = recentRoom;
-		recentRoom = null;
+		// 스택이 비어있으면 아무 일도 하지않는다.
 	}
 	
 	/**
