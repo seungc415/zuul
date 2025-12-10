@@ -6,7 +6,8 @@ import java.util.Iterator;
 public class Room {
 	private String description; // 이 Room에 대한 설명.
 	private Map<String, Room> exits;
-
+	private Item item;
+	
 	/**
 	 * "description" 설명에 해당하는 Room을 구성한다. 초기에는 exit을 갖지 않는다. "description"은 가령
 	 * "과사무실", "실습실", "동아리방" 같은 것이다.
@@ -16,6 +17,10 @@ public class Room {
 	public Room(String description) {
 		this.description = description;
 		exits = new HashMap<String, Room>();
+	}
+	
+	public void setItem(Item item) {
+		this.item = item;
 	}
 
 	/**
@@ -71,7 +76,14 @@ public class Room {
 	 * @return Room의 상세한 정보를 모두 모아 문자열로 반환한다.
 	 */
 	public String getLongDescription() {
-		return description + ".\n" + getExitString();
+		StringBuilder s = new StringBuilder();
+		s.append(description + ".\n");
+		s.append(getExitString());
+		if (item != null) {
+			s.append("\n<Item>");
+			s.append("\n" + item.getLongDescription());
+		}
+		return s.toString();
 	}
 
 }
